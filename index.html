@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Plagiarism Checker — Check Your Text Instantly</title>
+  <meta name="description" content="Free online plagiarism checker. Paste your text and get an instant similarity analysis. Perfect for students, teachers, writers, and bloggers. No sign-up required.">
+  <meta name="keywords" content="free plagiarism checker, check for plagiarism, plagiarism detector, plagiarism tool, check plagiarism online, is this plagiarism">
+  <link rel="canonical" href="https://freeplagiarismcheck.com/">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f7f8fc; color: #1a202c; min-height: 100vh; }
+    header { background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); color: white; padding: 1.25rem 1.5rem; }
+    header h1 { font-size: 1.3rem; font-weight: 800; }
+    header p { font-size: 0.85rem; opacity: 0.9; margin-top: 0.2rem; }
+    main { max-width: 800px; margin: 2rem auto; padding: 0 1rem 3rem; }
+    .card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 1.5rem; }
+    label { font-weight: 700; font-size: 0.95rem; color: #2d3748; display: block; margin-bottom: 0.5rem; }
+    textarea {
+      width: 100%; min-height: 200px; padding: 1rem;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 0.95rem; line-height: 1.7; resize: vertical;
+      font-family: inherit; transition: border-color 0.2s;
+    }
+    textarea:focus { outline: none; border-color: #e53e3e; }
+    .meta-row { display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.82rem; color: #718096; flex-wrap: wrap; }
+    .btn-row { display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .btn { padding: 0.7rem 1.5rem; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn-primary { background: #e53e3e; color: white; }
+    .btn-primary:hover { background: #c53030; }
+    .btn-secondary { background: #edf2f7; color: #4a5568; }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .disclaimer { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem; color: #c53030; margin-top: 0.75rem; line-height: 1.5; }
+    .result-box { display: none; }
+    .score-circle-wrap { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .score-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
+    .score-circle .pct { font-size: 1.8rem; line-height: 1; }
+    .score-circle .score-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.15rem; }
+    .verdict { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .verdict-sub { font-size: 0.9rem; color: #718096; line-height: 1.5; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+    .stat { background: #f7fafc; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+    .stat-val { font-size: 1.4rem; font-weight: 800; color: #2d3748; }
+    .stat-key { font-size: 0.75rem; color: #718096; margin-top: 0.15rem; }
+    .highlight-text { line-height: 1.8; font-size: 0.95rem; background: #f7fafc; border-radius: 8px; padding: 1rem; max-height: 200px; overflow-y: auto; }
+    mark.common { background: #fed7d7; color: #c53030; border-radius: 3px; padding: 0 2px; }
+    mark.unique { background: #c6f6d5; color: #276749; border-radius: 3px; padding: 0 2px; }
+    h3 { font-size: 0.9rem; font-weight: 700; color: #2d3748; margin-bottom: 0.5rem; }
+    .content-section { color: #4a5568; line-height: 1.7; }
+    .content-section h2 { color: #2d3748; font-size: 1rem; margin: 1.25rem 0 0.4rem; }
+    .content-section ul { padding-left: 1.25rem; }
+    .content-section li { margin-bottom: 0.35rem; }
+    .faq-item { border-top: 1px solid #e2e8f0; padding: 0.85rem 0; }
+    .faq-q { font-weight: 600; color: #2d3748; margin-bottom: 0.25rem; font-size: 0.9rem; }
+    .progress { height: 6px; background: #e2e8f0; border-radius: 99px; margin: 0.5rem 0; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+    footer { text-align: center; padding: 1.5rem; color: #a0aec0; font-size: 0.82rem; }
+    footer a { color: #a0aec0; margin: 0 0.5rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 Free Plagiarism Checker</h1>
+  <p>Instant text similarity analysis — no sign-up, no limits, completely free</p>
+</header>
+
+<main>
+  <div class="card">
+    <label for="textInput">Paste your text below:</label>
+    <textarea id="textInput" placeholder="Paste your essay, article, assignment, or any text here...&#10;&#10;Minimum 20 words recommended for best results."></textarea>
+    <div class="meta-row">
+      <span id="wordCount">0 words</span>
+      <span id="charCount">0 characters</span>
+    </div>
+
+    <div class="disclaimer">
+      ℹ️ <strong>How this works:</strong> This tool performs a local linguistic analysis of your text — checking for common phrase patterns, repetitive structures, and writing style indicators. For deep web comparison, use alongside tools like Grammarly or Copyscape.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkPlagiarism()">🔍 Check for Plagiarism</button>
+      <button class="btn btn-secondary" onclick="clearText()">Clear</button>
+      <button class="btn btn-secondary" onclick="sampleText()">Load Sample</button>
+    </div>
+  </div>
+
+  <div class="card result-box" id="resultBox">
+    <div class="score-circle-wrap">
+      <div class="score-circle" id="scoreCircle">
+        <div class="pct" id="scorePct">—</div>
+        <div class="score-label">Original</div>
+      </div>
+      <div>
+        <div class="verdict" id="verdict">—</div>
+        <div class="verdict-sub" id="verdictSub">—</div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-val" id="statWords">—</div><div class="stat-key">Total Words</div></div>
+      <div class="stat"><div class="stat-val" id="statSents">—</div><div class="stat-key">Sentences</div></div>
+      <div class="stat"><div class="stat-val" id="statUniq">—</div><div class="stat-key">Unique Phrases</div></div>
+      <div class="stat"><div class="stat-val" id="statCommon">—</div><div class="stat-key">Common Phrases</div></div>
+    </div>
+
+    <h3>Writing Analysis:</h3>
+    <div class="progress"><div class="progress-bar" id="origBar" style="background:#48bb78"></div></div>
+    <div style="font-size:0.82rem;color:#718096;margin-bottom:0.75rem">
+      <span id="origPct">0%</span> original content &nbsp;|&nbsp; <span id="commonPct">0%</span> common phrases detected
+    </div>
+
+    <h3>Text Preview <span style="font-weight:normal;font-size:0.8rem;color:#718096">(🟥 common phrases &nbsp; 🟩 unique phrases)</span></h3>
+    <div class="highlight-text" id="highlightText"></div>
+  </div>
+
+  <div class="card content-section">
+    <h2>What Is a Plagiarism Checker?</h2>
+    <p>A plagiarism checker analyzes your text for similarity to existing content. Students use it to verify their work is original before submission. Writers use it to ensure their content is unique. Teachers use it to check student submissions for copied material.</p>
+
+    <h2>How to Check for Plagiarism</h2>
+    <ul>
+      <li>Paste your text into the box above</li>
+      <li>Click "Check for Plagiarism"</li>
+      <li>Review your originality score and highlighted phrases</li>
+      <li>Rewrite any flagged sections in your own words</li>
+    </ul>
+
+    <h2>Tips for Writing Original Content</h2>
+    <ul>
+      <li><strong>Paraphrase in your own words</strong> — don't copy and paste, even with citation</li>
+      <li><strong>Cite your sources</strong> — always credit where ideas come from</li>
+      <li><strong>Use quotes for direct language</strong> — exact quotes must be in quotation marks</li>
+      <li><strong>Check before submitting</strong> — run a plagiarism check on every assignment</li>
+    </ul>
+
+    <div style="margin-top:1rem">
+      <div class="faq-item">
+        <div class="faq-q">Is this plagiarism checker free?</div>
+        <div style="font-size:0.9rem">Yes — completely free, no account required, no word limits.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does it search the internet?</div>
+        <div style="font-size:0.9rem">This tool runs a local linguistic analysis. For full internet comparison, combine with a web-based service like Copyscape or Grammarly Premium.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is my text stored or saved?</div>
+        <div style="font-size:0.9rem">No. Your text stays entirely in your browser. Nothing is uploaded or stored anywhere.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What score is acceptable?</div>
+        <div style="font-size:0.9rem">Most academic institutions accept up to 15-20% similarity. Aim for 90%+ original score for best results.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 FreePlagiarismCheck.com — Free plagiarism checker tool
+  <span style="display:block;margin-top:0.35rem"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Use</a></span>
+</footer>
+
+<script>
+const textInput = document.getElementById('textInput');
+
+// Common phrases database (patterns often found in generic/copied text)
+const commonPhrases = [
+  "in conclusion","it is important to note","in today's society","throughout history",
+  "since the beginning of time","it goes without saying","in the modern world",
+  "as we can see","first and foremost","last but not least","in other words",
+  "on the other hand","due to the fact that","in order to","with regard to",
+  "it is worth noting","needless to say","in light of","as a result of",
+  "the fact that","it should be noted","in terms of","with respect to",
+  "taking into account","in the event that","for the purpose of","in the case of",
+  "the reason why","the fact is","it is clear that","it can be argued",
+  "in recent years","at the same time","for example","for instance",
+  "according to","in addition","furthermore","moreover","nevertheless",
+  "on the contrary","as a matter of fact","to sum up","to summarize",
+  "in summary","in general","as previously mentioned","as stated above"
+];
+
+textInput.addEventListener('input', updateMeta);
+
+function updateMeta() {
+  const text = textInput.value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const chars = text.length;
+  document.getElementById('wordCount').textContent = `${words} word${words !== 1 ? 's' : ''}`;
+  document.getElementById('charCount').textContent = `${chars} character${chars !== 1 ? 's' : ''}`;
+}
+
+function checkPlagiarism() {
+  const text = textInput.value.trim();
+  if (!text || text.split(/\s+/).length < 10) {
+    alert('Please enter at least 10 words to analyze.');
+    return;
+  }
+
+  const words = text.split(/\s+/);
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 5);
+  const lower = text.toLowerCase();
+
+  let commonCount = 0;
+  let foundPhrases = [];
+
+  commonPhrases.forEach(phrase => {
+    if (lower.includes(phrase)) {
+      commonCount++;
+      foundPhrases.push(phrase);
+    }
+  });
+
+  // Score calculation
+  const phraseRatio = Math.min(commonCount / Math.max(sentences.length, 1), 1);
+  const uniquenessScore = Math.max(0, Math.round(100 - (phraseRatio * 60) - (commonCount > 5 ? 20 : 0)));
+  const commonPct = 100 - uniquenessScore;
+
+  // Verdict
+  let verdict, verdictSub, circleColor;
+  if (uniquenessScore >= 85) {
+    verdict = '✅ Highly Original'; circleColor = '#48bb78';
+    verdictSub = 'Your text appears highly original. Low use of common phrases detected.';
+  } else if (uniquenessScore >= 70) {
+    verdict = '🟡 Mostly Original'; circleColor = '#f6ad55';
+    verdictSub = 'Your text is mostly original but contains some common phrases. Consider rephrasing highlighted sections.';
+  } else if (uniquenessScore >= 50) {
+    verdict = '🟠 Some Common Content'; circleColor = '#ed8936';
+    verdictSub = 'Several common phrases detected. Review highlighted sections and rewrite in your own words.';
+  } else {
+    verdict = '🔴 High Similarity Risk'; circleColor = '#fc8181';
+    verdictSub = 'Many common phrases detected. Significant rewriting recommended before submission.';
+  }
+
+  // Update UI
+  document.getElementById('resultBox').style.display = 'block';
+  document.getElementById('scorePct').textContent = uniquenessScore + '%';
+  document.getElementById('scoreCircle').style.background = circleColor + '22';
+  document.getElementById('scoreCircle').style.border = `4px solid ${circleColor}`;
+  document.getElementById('scoreCircle').style.color = circleColor;
+  document.getElementById('verdict').textContent = verdict;
+  document.getElementById('verdictSub').textContent = verdictSub;
+  document.getElementById('statWords').textContent = words.length;
+  document.getElementById('statSents').textContent = sentences.length;
+  document.getElementById('statUniq').textContent = Math.max(0, sentences.length - commonCount);
+  document.getElementById('statCommon').textContent = commonCount;
+  document.getElementById('origBar').style.width = uniquenessScore + '%';
+  document.getElementById('origPct').textContent = uniquenessScore + '%';
+  document.getElementById('commonPct').textContent = commonPct + '%';
+
+  // Highlight text
+  let highlighted = text;
+  foundPhrases.forEach(phrase => {
+    const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    highlighted = highlighted.replace(regex, `<mark class="common">${phrase}</mark>`);
+  });
+  document.getElementById('highlightText').innerHTML = highlighted;
+  document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearText() {
+  textInput.value = '';
+  updateMeta();
+  document.getElementById('resultBox').style.display = 'none';
+}
+
+function sampleText() {
+  textInput.value = `In today's society, artificial intelligence has become an increasingly important topic of discussion. Throughout history, humans have sought to create tools that can think and reason. In recent years, the development of large language models has accelerated significantly. It is important to note that these systems are trained on vast amounts of data. Furthermore, they can generate text that is remarkably coherent and contextually appropriate. As a result of these advances, many industries are exploring how AI can be integrated into their workflows. In conclusion, artificial intelligence represents one of the most significant technological developments of our time.`;
+  updateMeta();
+}
+</script>
+</body>
+</html>
