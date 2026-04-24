@@ -61,7 +61,7 @@
 <body>
 
 <header>
-  <h1>🔍 Free Plagiarism Checker</h1>
+  <h1> Free Plagiarism Checker</h1>
   <p>Instant text similarity analysis — no sign-up, no limits, completely free</p>
 </header>
 
@@ -75,11 +75,11 @@
     </div>
 
     <div class="disclaimer">
-      ℹ️ <strong>How this works:</strong> This tool performs a local linguistic analysis of your text — checking for common phrase patterns, repetitive structures, and writing style indicators. For deep web comparison, use alongside tools like Grammarly or Copyscape.
+      ℹ <strong>How this works:</strong> This tool performs a local linguistic analysis of your text — checking for common phrase patterns, repetitive structures, and writing style indicators. For deep web comparison, use alongside tools like Grammarly or Copyscape.
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="checkPlagiarism()">🔍 Check for Plagiarism</button>
+      <button class="btn btn-primary" onclick="checkPlagiarism()"> Check for Plagiarism</button>
       <button class="btn btn-secondary" onclick="clearText()">Clear</button>
       <button class="btn btn-secondary" onclick="sampleText()">Load Sample</button>
     </div>
@@ -107,7 +107,7 @@
     <h3>Writing Analysis:</h3>
     <div class="progress"><div class="progress-bar" id="origBar" style="background:#48bb78"></div></div>
     <div style="font-size:0.82rem;color:#718096;margin-bottom:0.75rem">
-      <span id="origPct">0%</span> original content &nbsp;|&nbsp; <span id="commonPct">0%</span> common phrases detected
+      <span id="origPct">0%</span> original content &nbsp;&nbsp; <span id="commonPct">0%</span> common phrases detected
     </div>
 
     <h3>Text Preview <span style="font-weight:normal;font-size:0.8rem;color:#718096">(🟥 common phrases &nbsp; 🟩 unique phrases)</span></h3>
@@ -191,7 +191,7 @@ function updateMeta() {
 
 function checkPlagiarism() {
   const text = textInput.value.trim();
-  if (!text || text.split(/\s+/).length < 10) {
+  if (!text  text.split(/\s+/).length < 10) {
     alert('Please enter at least 10 words to analyze.');
     return;
   }
@@ -218,7 +218,7 @@ function checkPlagiarism() {
   // Verdict
   let verdict, verdictSub, circleColor;
   if (uniquenessScore >= 85) {
-    verdict = '✅ Highly Original'; circleColor = '#48bb78';
+    verdict = ' Highly Original'; circleColor = '#48bb78';
     verdictSub = 'Your text appears highly original. Low use of common phrases detected.';
   } else if (uniquenessScore >= 70) {
     verdict = '🟡 Mostly Original'; circleColor = '#f6ad55';
@@ -227,7 +227,7 @@ function checkPlagiarism() {
     verdict = '🟠 Some Common Content'; circleColor = '#ed8936';
     verdictSub = 'Several common phrases detected. Review highlighted sections and rewrite in your own words.';
   } else {
-    verdict = '🔴 High Similarity Risk'; circleColor = '#fc8181';
+    verdict = ' High Similarity Risk'; circleColor = '#fc8181';
     verdictSub = 'Many common phrases detected. Significant rewriting recommended before submission.';
   }
 
@@ -250,7 +250,7 @@ function checkPlagiarism() {
   // Highlight text
   let highlighted = text;
   foundPhrases.forEach(phrase => {
-    const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    const regex = new RegExp(phrase.replace(/[.*+?^${}()[\]\\]/g, '\\$&'), 'gi');
     highlighted = highlighted.replace(regex, `<mark class="common">${phrase}</mark>`);
   });
   document.getElementById('highlightText').innerHTML = highlighted;
