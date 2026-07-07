@@ -194,7 +194,7 @@ function updateMeta() {
 
 function checkPlagiarism() {
   const text = textInput.value.trim();
-  if (!text  text.split(/\s+/).length < 10) {
+  if (!text || text.split(/\s+/).length < 10) {
     alert('Please enter at least 10 words to analyze.');
     return;
   }
