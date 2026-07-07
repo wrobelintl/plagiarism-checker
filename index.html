@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Plagiarism Checker — Check Your Text Instantly</title>
-  <meta name="description" content="Free online plagiarism checker. Paste your text and get an instant similarity analysis. Perfect for students, teachers, writers, and bloggers. No sign-up required.">
+  <meta name="description" content="Free browser-based plagiarism checker. Get an instant originality estimate from common-phrase analysis — private, no sign-up, your text never leaves your device. For students, teachers, writers, and bloggers.">
   <meta name="keywords" content="free plagiarism checker, check for plagiarism, plagiarism detector, plagiarism tool, check plagiarism online, is this plagiarism">
   <link rel="canonical" href="https://freeplagiarismcheck.com/">
   <style>
@@ -64,7 +64,7 @@
 
 <header>
   <h1> Free Plagiarism Checker</h1>
-  <p>Instant text similarity analysis — no sign-up, no limits, completely free</p>
+  <p>Instant common-phrase originality analysis — free, no sign-up, and your text never leaves your browser</p>
 </header>
 
 <main>
@@ -77,11 +77,11 @@
     </div>
 
     <div class="disclaimer">
-      ℹ <strong>How this works:</strong> This tool performs a local linguistic analysis of your text — checking for common phrase patterns, repetitive structures, and writing style indicators. For deep web comparison, use alongside tools like Grammarly or Copyscape.
+      ℹ <strong>How this works:</strong> This tool runs entirely in your browser and checks your text against a list of commonly overused phrases to estimate how formulaic your writing is. It does <strong>not</strong> compare your text against the internet or any database. For source-matching, use a database-backed service or your institution's official checker.
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="checkPlagiarism()"> Check for Plagiarism</button>
+      <button class="btn btn-primary" onclick="checkPlagiarism()"> Check My Text</button>
       <button class="btn btn-secondary" onclick="clearText()">Clear</button>
       <button class="btn btn-secondary" onclick="sampleText()">Load Sample</button>
     </div>
@@ -114,36 +114,75 @@
 
     <h3>Text Preview <span style="font-weight:normal;font-size:0.8rem;color:#718096">(🟥 common phrases &nbsp; 🟩 unique phrases)</span></h3>
     <div class="highlight-text" id="highlightText"></div>
+    <p style="font-size:0.78rem;color:#a0aec0;margin-top:0.75rem">This estimate is based on common-phrase analysis performed in your browser. It is not a comparison against the web or any database, and it cannot determine whether text was copied from a specific source.</p>
   </div>
 
   <div class="card content-section">
+    <h2>What This Free Checker Does</h2>
+    <p>This tool is a <strong>browser-based writing-originality checker</strong>. When you click "Check My Text," it scans your writing for dozens of commonly overused phrases — stock expressions like "in conclusion," "first and foremost," and "it is important to note" — and estimates how formulaic your text is. Everything runs locally in your browser: it works instantly, it's free, and your text is never uploaded.</p>
+    <p>Writing that leans on stock phrases tends to read as generic, and generic phrasing is also what accidental plagiarism, patch-writing, and template-driven drafts have in common. Spotting and rewriting those sections makes your writing more distinctive and less likely to overlap with existing content.</p>
+
+    <h2>What It Does Not Do</h2>
+    <ul>
+      <li>It does <strong>not</strong> compare your text against the internet, search engines, or any database of documents.</li>
+      <li>It does <strong>not</strong> check academic repositories, journals, or student-paper databases the way institutional systems do.</li>
+      <li>It <strong>cannot</strong> tell you whether a passage was copied from a specific source.</li>
+      <li>Its score is <strong>not</strong> comparable to the "similarity index" produced by database-driven checkers.</li>
+    </ul>
+    <p>If you need source-matching against the web or academic databases, use a database-backed service or the official checker your institution or client requires. This tool is a fast first-pass writing aid, not a replacement for those systems.</p>
+
     <h2>What Is a Plagiarism Checker?</h2>
-    <p>A plagiarism checker analyzes your text for similarity to existing content. Students use it to verify their work is original before submission. Writers use it to ensure their content is unique. Teachers use it to check student submissions for copied material.</p>
+    <p>The term covers two different kinds of tools. <strong>Database checkers</strong> compare your text against large indexes of web pages and papers to find matching sources — that's what schools and publishers typically use. <strong>Style-based checkers</strong> — like this one — analyze the text itself for signals such as overused phrasing. Database checkers find overlap with existing sources; style checkers help you write distinctively. Careful writers often benefit from both.</p>
 
-    <h2>How to Check for Plagiarism</h2>
+    <h2>How to Use This Checker</h2>
     <ul>
-      <li>Paste your text into the box above</li>
-      <li>Click "Check for Plagiarism"</li>
-      <li>Review your originality score and highlighted phrases</li>
-      <li>Rewrite any flagged sections in your own words</li>
+      <li>Paste your essay, article, or draft into the box above (at least 10 words).</li>
+      <li>Click <strong>"Check My Text."</strong></li>
+      <li>Review the originality estimate and the highlighted common phrases.</li>
+      <li>Rewrite flagged sections in your own words, then re-check.</li>
     </ul>
 
-    <h2>Tips for Writing Original Content</h2>
+    <h2>How to Interpret the Score</h2>
+    <p>The score is an <strong>estimate of how much of your text relies on stock phrases</strong>, based on the ratio of flagged phrases to sentences. A high score means your phrasing is largely free of the clichés on our list; a low score means your text leans on formulaic language. It is a signal about <em>writing style</em> — not a verdict on whether your work is plagiarism-free. No automated tool can promise that, and we don't.</p>
+  </div>
+
+  <div class="card content-section">
+    <h2>Common Causes of Repetitive or Low-Originality Writing</h2>
     <ul>
-      <li><strong>Paraphrase in your own words</strong> — don't copy and paste, even with citation</li>
-      <li><strong>Cite your sources</strong> — always credit where ideas come from</li>
-      <li><strong>Use quotes for direct language</strong> — exact quotes must be in quotation marks</li>
-      <li><strong>Check before submitting</strong> — run a plagiarism check on every assignment</li>
+      <li><strong>Template openings and closings</strong> — introductions built on "in today's society…" and conclusions built on "in conclusion…" are the fastest way to sound generic.</li>
+      <li><strong>Patch-writing</strong> — swapping a few words in a source's sentence keeps its structure, which reads as derivative even when cited.</li>
+      <li><strong>Transition filler</strong> — chains of "furthermore," "moreover," and "as a result of" pad word count without adding your own reasoning.</li>
+      <li><strong>Summarizing without synthesizing</strong> — restating sources one by one instead of connecting them into your own argument.</li>
+      <li><strong>Machine-translated or heavily AI-assisted drafts</strong> — generated boilerplate tends to converge on the same stock expressions.</li>
     </ul>
 
-    <div style="margin-top:1rem">
+    <h2>How to Improve Originality Before Submitting Work</h2>
+    <ul>
+      <li><strong>Write from an outline, not from a source</strong> — close the source before drafting so its sentence structure doesn't leak into yours.</li>
+      <li><strong>Paraphrase ideas, then cite them anyway</strong> — changing the words doesn't remove the need for attribution.</li>
+      <li><strong>Quote exact language</strong> — if the wording matters, put it in quotation marks with a citation instead of lightly editing it.</li>
+      <li><strong>Replace stock transitions</strong> with transitions that say something: what follows, why it matters, or how it connects.</li>
+      <li><strong>Read your draft aloud</strong> — clichés are easier to hear than to see.</li>
+      <li><strong>Keep your drafts and notes</strong> — if a question about originality ever comes up, your working history is the best evidence the writing is yours.</li>
+    </ul>
+
+    <h2>Using This Tool for Academic Work — Read First</h2>
+    <p>Every institution sets its own rules for originality, allowed sources, and acceptable similarity. This tool doesn't know those rules and can't predict the score any institutional checker will give you. Use it to tighten your writing before submission — then follow your school's, publisher's, or client's required process, including their official plagiarism-detection service where one exists. When in doubt, ask your instructor or editor; that is always safer than relying on any automated score, including ours.</p>
+
+    <h2>Your Privacy: Text Stays in Your Browser</h2>
+    <p>The analysis runs entirely on your device using the JavaScript in this page. The text you paste is <strong>never uploaded, transmitted, stored, or logged</strong> — close or refresh the page and it's gone. That's also why the checker keeps working even if you lose your connection after the page loads. Details are in our <a href="/privacy.html">Privacy Policy</a>.</p>
+  </div>
+
+  <div class="card content-section">
+    <h2>Frequently Asked Questions</h2>
+    <div>
       <div class="faq-item">
         <div class="faq-q">Is this plagiarism checker free?</div>
         <div style="font-size:0.9rem">Yes — completely free, no account required, no word limits.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Does it search the internet?</div>
-        <div style="font-size:0.9rem">This tool runs a local linguistic analysis. For full internet comparison, combine with a web-based service like Copyscape or Grammarly Premium.</div>
+        <div style="font-size:0.9rem">No. It runs a local analysis of common-phrase usage in your browser. For internet or database comparison you'll need a database-backed service or your institution's official checker.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Is my text stored or saved?</div>
@@ -151,7 +190,23 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">What score is acceptable?</div>
-        <div style="font-size:0.9rem">Most academic institutions accept up to 15-20% similarity. Aim for 90%+ original score for best results.</div>
+        <div style="font-size:0.9rem">There's no universal answer, and this score isn't comparable to the similarity index from database checkers. Treat it as a writing-style signal: the more stock phrases you replace with your own words, the stronger your draft. For submissions, follow the threshold and process your institution, publisher, or client sets.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will my paper pass an institutional checker if I score high here?</div>
+        <div style="font-size:0.9rem">This tool can't predict that. Institutional checkers compare your text against databases of papers and web pages, which is a different kind of analysis. A high score here means your phrasing is distinctive — it is not a guarantee about source overlap.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why did my quoted or cited text get flagged?</div>
+        <div style="font-size:0.9rem">The checker flags common phrases wherever they appear, including inside quotations. Properly quoted and cited material isn't plagiarism — use the highlights to review your own prose, not your citations.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What actually counts as plagiarism?</div>
+        <div style="font-size:0.9rem">Presenting someone else's words, ideas, structure, data, or media as your own — including reusing your own previously submitted work where the rules forbid it. Quotation marks, citations, and honest paraphrase with attribution are what keep borrowed material legitimate.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How much text can I paste?</div>
+        <div style="font-size:0.9rem">There's no enforced limit. The analysis needs at least 10 words; anything from a few paragraphs to a full essay works well.</div>
       </div>
     </div>
   </div>
@@ -230,8 +285,8 @@ function checkPlagiarism() {
     verdict = '🟠 Some Common Content'; circleColor = '#ed8936';
     verdictSub = 'Several common phrases detected. Review highlighted sections and rewrite in your own words.';
   } else {
-    verdict = ' High Similarity Risk'; circleColor = '#fc8181';
-    verdictSub = 'Many common phrases detected. Significant rewriting recommended before submission.';
+    verdict = '🔴 Heavy Use of Common Phrases'; circleColor = '#fc8181';
+    verdictSub = 'Your text leans heavily on stock phrases. Rewriting the highlighted sections in your own words will make it more distinctive.';
   }
 
   // Update UI
