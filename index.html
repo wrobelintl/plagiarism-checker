@@ -45,7 +45,8 @@
     .stat-key { font-size: 0.75rem; color: #718096; margin-top: 0.15rem; }
     .highlight-text { line-height: 1.8; font-size: 0.95rem; background: #f7fafc; border-radius: 8px; padding: 1rem; max-height: 200px; overflow-y: auto; }
     mark.common { background: #fed7d7; color: #c53030; border-radius: 3px; padding: 0 2px; }
-    mark.unique { background: #c6f6d5; color: #276749; border-radius: 3px; padding: 0 2px; }
+    #patternNotes ul { padding-left: 1.25rem; font-size: 0.88rem; color: #4a5568; line-height: 1.6; }
+    #patternNotes li { margin-bottom: 0.4rem; }
     h3 { font-size: 0.9rem; font-weight: 700; color: #2d3748; margin-bottom: 0.5rem; }
     .content-section { color: #4a5568; line-height: 1.7; }
     .content-section h2 { color: #2d3748; font-size: 1rem; margin: 1.25rem 0 0.4rem; }
@@ -102,18 +103,19 @@
     <div class="stats-grid">
       <div class="stat"><div class="stat-val" id="statWords">—</div><div class="stat-key">Total Words</div></div>
       <div class="stat"><div class="stat-val" id="statSents">—</div><div class="stat-key">Sentences</div></div>
-      <div class="stat"><div class="stat-val" id="statUniq">—</div><div class="stat-key">Unique Phrases</div></div>
-      <div class="stat"><div class="stat-val" id="statCommon">—</div><div class="stat-key">Common Phrases</div></div>
+      <div class="stat"><div class="stat-val" id="statUniq">—</div><div class="stat-key">Matched Phrase Types</div></div>
+      <div class="stat"><div class="stat-val" id="statCommon">—</div><div class="stat-key">Total Phrase Matches</div></div>
     </div>
 
     <h3>Writing Analysis:</h3>
     <div class="progress"><div class="progress-bar" id="origBar" style="background:#48bb78"></div></div>
     <div style="font-size:0.82rem;color:#718096;margin-bottom:0.75rem">
-      <span id="origPct">0%</span> original content &nbsp;&nbsp; <span id="commonPct">0%</span> common phrases detected
+      <span id="origPct">0%</span> estimated original phrasing &nbsp;&nbsp; <span id="commonPct">0%</span> common-phrase impact
     </div>
 
-    <h3>Text Preview <span style="font-weight:normal;font-size:0.8rem;color:#718096">(🟥 common phrases &nbsp; 🟩 unique phrases)</span></h3>
+    <h3>Text Preview <span style="font-weight:normal;font-size:0.8rem;color:#718096">(🟥 highlighted = matched common phrases)</span></h3>
     <div class="highlight-text" id="highlightText"></div>
+    <div id="patternNotes" style="margin-top:1rem"></div>
     <p style="font-size:0.78rem;color:#a0aec0;margin-top:0.75rem">This estimate is based on common-phrase analysis performed in your browser. It is not a comparison against the web or any database, and it cannot determine whether text was copied from a specific source.</p>
   </div>
 
@@ -221,20 +223,75 @@
 <script>
 const textInput = document.getElementById('textInput');
 
-// Common phrases database (patterns often found in generic/copied text)
-const commonPhrases = [
-  "in conclusion","it is important to note","in today's society","throughout history",
-  "since the beginning of time","it goes without saying","in the modern world",
-  "as we can see","first and foremost","last but not least","in other words",
-  "on the other hand","due to the fact that","in order to","with regard to",
-  "it is worth noting","needless to say","in light of","as a result of",
-  "the fact that","it should be noted","in terms of","with respect to",
-  "taking into account","in the event that","for the purpose of","in the case of",
-  "the reason why","the fact is","it is clear that","it can be argued",
-  "in recent years","at the same time","for example","for instance",
-  "according to","in addition","furthermore","moreover","nevertheless",
-  "on the contrary","as a matter of fact","to sum up","to summarize",
-  "in summary","in general","as previously mentioned","as stated above"
+// Overused-phrase database, grouped by writing-pattern category.
+// These flag stylistic patterns only — they do not indicate copying, AI use, or plagiarism.
+const phraseCategories = [
+  { label: 'Formulaic openers & conclusions',
+    tip: 'Open with your actual point and close with what follows from it, instead of template openers and wrap-ups.',
+    phrases: [
+      "in conclusion","to sum up","to summarize","in summary","in closing","all in all",
+      "at the end of the day","when all is said and done","in today's society","in today's world",
+      "in the modern world","in this day and age","since the beginning of time","since the dawn of time",
+      "throughout history","throughout human history","in recent years","in recent times",
+      "now more than ever","this essay will discuss","this paper will discuss","the purpose of this essay",
+      "as previously mentioned","as stated above","as mentioned earlier","as we can see"
+    ] },
+  { label: 'Generic transitions',
+    tip: 'Swap generic connectors for transitions that say why the next idea follows.',
+    phrases: [
+      "first and foremost","last but not least","on the other hand","in other words",
+      "as a result of","due to the fact that","in order to","with regard to","with respect to",
+      "in terms of","in light of","in the event that","for the purpose of","in the case of",
+      "at the same time","for example","for instance","in addition","furthermore","moreover",
+      "nevertheless","nonetheless","on the contrary","as a matter of fact","in the meantime",
+      "with that being said","that being said","having said that","be that as it may",
+      "in any case","in a nutshell","taking into account","according to","in general"
+    ] },
+  { label: 'Academic filler',
+    tip: 'Cut throat-clearing like "it is important to note" — state the point directly and attribute claims to a specific source.',
+    phrases: [
+      "it is important to note","it should be noted","it is worth noting","it is worth mentioning",
+      "it goes without saying","needless to say","it is clear that","it can be argued",
+      "it can be seen that","it is evident that","it is obvious that","studies have shown",
+      "research has shown","experts agree","many people believe","it is widely believed",
+      "it is generally accepted","it is commonly known","the fact that","the reason why",
+      "the fact is","this shows that","this proves that","this demonstrates that",
+      "plays an important role","plays a vital role","plays a crucial role"
+    ] },
+  { label: 'Vague business language',
+    tip: 'Replace buzzwords with the concrete action, number, or outcome you actually mean.',
+    phrases: [
+      "at this point in time","at the present time","in the near future","going forward",
+      "moving forward","on a daily basis","on a regular basis","in a timely manner",
+      "state of the art","cutting edge","best practices","core competency","think outside the box",
+      "low-hanging fruit","circle back","touch base","value added","paradigm shift",
+      "game changer","win-win","synergy"
+    ] },
+  { label: 'Clichés',
+    tip: 'Replace worn images with a specific detail from your own subject.',
+    phrases: [
+      "the tip of the iceberg","easier said than done","a double-edged sword","time will tell",
+      "in the blink of an eye","a blessing in disguise","the grass is always greener",
+      "actions speak louder than words","the bottom line","a level playing field",
+      "leave no stone unturned","the elephant in the room","food for thought","a perfect storm",
+      "back to the drawing board","the best of both worlds","a matter of time","few and far between",
+      "par for the course","tried and true","crystal clear","last resort","the calm before the storm"
+    ] },
+  { label: 'Weak intensifiers',
+    tip: 'Delete the intensifier or replace the pair with one stronger, more precise word.',
+    phrases: [
+      "very unique","completely unique","very important","really important","extremely important",
+      "incredibly important","highly significant","very interesting","really interesting",
+      "truly remarkable","absolutely essential","totally different","a lot of","lots of",
+      "kind of","sort of","quite possibly","basically","literally"
+    ] },
+  { label: 'Unsupported certainty',
+    tip: 'Claims framed as undeniable read as unsupported — give the evidence or soften the claim.',
+    phrases: [
+      "everyone knows","everybody knows","it is undeniable","undeniably","without a doubt",
+      "there is no doubt","no one can deny","nobody can deny","proven fact","the truth is",
+      "obviously","beyond a shadow of a doubt","always has been","will always be","never fails"
+    ] },
 ];
 
 textInput.addEventListener('input', updateMeta);
@@ -245,6 +302,70 @@ function updateMeta() {
   const chars = text.length;
   document.getElementById('wordCount').textContent = `${words} word${words !== 1 ? 's' : ''}`;
   document.getElementById('charCount').textContent = `${chars} character${chars !== 1 ? 's' : ''}`;
+}
+
+// Find every occurrence of a phrase in the lowercased text, respecting word boundaries
+// so e.g. "the fact is" does not match inside "the fact isn't".
+function findOccurrences(lower, phrase) {
+  const hits = [];
+  let idx = lower.indexOf(phrase);
+  while (idx !== -1) {
+    const before = idx === 0 ? '' : lower[idx - 1];
+    const after = idx + phrase.length >= lower.length ? '' : lower[idx + phrase.length];
+    if (!/[a-z0-9]/.test(before) && !/[a-z0-9]/.test(after)) hits.push(idx);
+    idx = lower.indexOf(phrase, idx + 1);
+  }
+  return hits;
+}
+
+// Render the preview using only text nodes and <mark> elements — user text is never
+// parsed as HTML, so markup-like input displays literally and cannot execute.
+function renderHighlights(container, text, mergedRanges) {
+  container.textContent = '';
+  let pos = 0;
+  mergedRanges.forEach(range => {
+    if (range[0] > pos) container.appendChild(document.createTextNode(text.slice(pos, range[0])));
+    const mark = document.createElement('mark');
+    mark.className = 'common';
+    mark.textContent = text.slice(range[0], range[1]);
+    container.appendChild(mark);
+    pos = range[1];
+  });
+  if (pos < text.length) container.appendChild(document.createTextNode(text.slice(pos)));
+}
+
+// Short, findings-driven guidance. Built with DOM methods only.
+function renderNotes(matches, totalMatches) {
+  const box = document.getElementById('patternNotes');
+  box.textContent = '';
+  const heading = document.createElement('h3');
+  heading.textContent = 'Writing Pattern Notes';
+  box.appendChild(heading);
+  const list = document.createElement('ul');
+  if (!totalMatches) {
+    const li = document.createElement('li');
+    li.textContent = 'No phrases from our common-phrase list were found — a good sign for distinctive phrasing. This does not prove the text is original or uncopied; no style-based tool can determine that.';
+    list.appendChild(li);
+  } else {
+    const byCat = {};
+    matches.forEach(m => {
+      if (!byCat[m.category]) byCat[m.category] = { tip: m.tip, count: 0 };
+      byCat[m.category].count += m.count;
+    });
+    Object.keys(byCat).forEach(cat => {
+      const li = document.createElement('li');
+      const n = byCat[cat].count;
+      li.textContent = cat + ' — ' + n + (n === 1 ? ' match. ' : ' matches. ') + byCat[cat].tip;
+      list.appendChild(li);
+    });
+    const top = matches.slice().sort((a, b) => b.count - a.count)[0];
+    if (top && top.count >= 2) {
+      const li = document.createElement('li');
+      li.textContent = 'Most repeated: "' + top.phrase + '" appears ' + top.count + ' times — vary your wording and sentence structure where it recurs.';
+      list.appendChild(li);
+    }
+  }
+  box.appendChild(list);
 }
 
 function checkPlagiarism() {
@@ -258,31 +379,53 @@ function checkPlagiarism() {
   const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 5);
   const lower = text.toLowerCase();
 
-  let commonCount = 0;
-  let foundPhrases = [];
+  // Collect per-phrase occurrences and their positions.
+  const matches = [];
+  const ranges = [];
+  phraseCategories.forEach(cat => {
+    cat.phrases.forEach(phrase => {
+      const positions = findOccurrences(lower, phrase);
+      if (positions.length) {
+        matches.push({ phrase: phrase, category: cat.label, tip: cat.tip, count: positions.length });
+        positions.forEach(p => ranges.push([p, p + phrase.length]));
+      }
+    });
+  });
 
-  commonPhrases.forEach(phrase => {
-    if (lower.includes(phrase)) {
-      commonCount++;
-      foundPhrases.push(phrase);
+  // Merge overlapping ranges so highlights and counts agree: one highlighted span = one match.
+  ranges.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
+  const merged = [];
+  ranges.forEach(r => {
+    if (merged.length && r[0] <= merged[merged.length - 1][1]) {
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], r[1]);
+    } else {
+      merged.push([r[0], r[1]]);
     }
   });
 
-  // Score calculation
-  const phraseRatio = Math.min(commonCount / Math.max(sentences.length, 1), 1);
-  const uniquenessScore = Math.max(0, Math.round(100 - (phraseRatio * 60) - (commonCount > 5 ? 20 : 0)));
+  const matchedTypes = matches.length;
+  const totalMatches = merged.length;
+  const repeats = Math.max(0, totalMatches - matchedTypes);
+  const density = totalMatches / Math.max(sentences.length, 1);
+
+  // Bounded, explainable style estimate: phrase density + breadth of phrase types
+  // + repeated reuse of the same phrases. Not a plagiarism/similarity index.
+  const penalty = Math.min(80, Math.round(
+    45 * Math.min(density, 1.2) + 3 * Math.min(matchedTypes, 10) + 2 * Math.min(repeats, 10)
+  ));
+  const uniquenessScore = Math.max(0, 100 - penalty);
   const commonPct = 100 - uniquenessScore;
 
   // Verdict
   let verdict, verdictSub, circleColor;
   if (uniquenessScore >= 85) {
-    verdict = ' Highly Original'; circleColor = '#48bb78';
-    verdictSub = 'Your text appears highly original. Low use of common phrases detected.';
+    verdict = '🟢 Highly Original Phrasing'; circleColor = '#48bb78';
+    verdictSub = 'Low use of common phrases detected. Distinctive phrasing — though no style-based check can prove a text is original.';
   } else if (uniquenessScore >= 70) {
-    verdict = '🟡 Mostly Original'; circleColor = '#f6ad55';
-    verdictSub = 'Your text is mostly original but contains some common phrases. Consider rephrasing highlighted sections.';
+    verdict = '🟡 Mostly Original Phrasing'; circleColor = '#f6ad55';
+    verdictSub = 'Your text is mostly distinctive but contains some common phrases. Consider rephrasing highlighted sections.';
   } else if (uniquenessScore >= 50) {
-    verdict = '🟠 Some Common Content'; circleColor = '#ed8936';
+    verdict = '🟠 Some Common Phrasing'; circleColor = '#ed8936';
     verdictSub = 'Several common phrases detected. Review highlighted sections and rewrite in your own words.';
   } else {
     verdict = '🔴 Heavy Use of Common Phrases'; circleColor = '#fc8181';
@@ -299,19 +442,14 @@ function checkPlagiarism() {
   document.getElementById('verdictSub').textContent = verdictSub;
   document.getElementById('statWords').textContent = words.length;
   document.getElementById('statSents').textContent = sentences.length;
-  document.getElementById('statUniq').textContent = Math.max(0, sentences.length - commonCount);
-  document.getElementById('statCommon').textContent = commonCount;
+  document.getElementById('statUniq').textContent = matchedTypes;
+  document.getElementById('statCommon').textContent = totalMatches;
   document.getElementById('origBar').style.width = uniquenessScore + '%';
   document.getElementById('origPct').textContent = uniquenessScore + '%';
   document.getElementById('commonPct').textContent = commonPct + '%';
 
-  // Highlight text
-  let highlighted = text;
-  foundPhrases.forEach(phrase => {
-    const regex = new RegExp(phrase.replace(/[.*+?^${}()[\]\\]/g, '\\$&'), 'gi');
-    highlighted = highlighted.replace(regex, `<mark class="common">${phrase}</mark>`);
-  });
-  document.getElementById('highlightText').innerHTML = highlighted;
+  renderHighlights(document.getElementById('highlightText'), text, merged);
+  renderNotes(matches, totalMatches);
   document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
